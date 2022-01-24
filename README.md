@@ -1,4 +1,4 @@
-# golang-microservice-example
+# workshop sample
 ## Running
 
 ```
