@@ -29,8 +29,8 @@ jobs:
       
     # ADD YOUR SERVICE OR CONSOLE HERE
     - stage: "build"
-      name: "app"
-      env: CMD_PATH=cmd/app
+      name: "andri"
+      env: CMD_PATH=cmd/andri
       if: type = push AND (commit_message =~ /\(console1\)/ OR commit_message =~ /build_all/)
 
 # notifications:
