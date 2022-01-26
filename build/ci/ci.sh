@@ -111,7 +111,7 @@ _auth_gcr() {
 
 _run_test() {
     # _setup_git_cred
-    # echo "[info] - running unit test"
+    echo "[info] - running unit test"
     # make test
 }
 
