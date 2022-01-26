@@ -102,17 +102,17 @@ _auth_gcr() {
     gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://asia.gcr.io
 }
 
-_setup_git_cred() {
-    echo "[info] -- setup git credential"
-    git config --global url.git@github.com:.insteadOf https://github.com/
-    cp config/.ssh/id_rsa ~/.ssh/id_rsa
-    printf "Host github.com\n\tStrictHostKeyChecking no\n\tIdentityFile ~/.ssh/id_rsa" > ~/.ssh/config
-}
+# _setup_git_cred() {
+#     echo "[info] -- setup git credential"
+#     git config --global url.git@github.com:.insteadOf https://github.com/
+#     cp config/.ssh/id_rsa ~/.ssh/id_rsa
+#     printf "Host github.com\n\tStrictHostKeyChecking no\n\tIdentityFile ~/.ssh/id_rsa" > ~/.ssh/config
+# }
 
 _run_test() {
-    _setup_git_cred
-    echo "[info] - running unit test"
-    make test
+    # _setup_git_cred
+    # echo "[info] - running unit test"
+    # make test
 }
 
 _init() {
