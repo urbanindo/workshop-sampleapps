@@ -2,16 +2,18 @@ os: linux
 dist: focal
 language: go
 go:
-- 1.17.x
+  - 1.17.x
 env:
   global:
-  - CI_CONFIG_DIR=build/ci/.env
-  - BRANCH_NAME=$TRAVIS_BRANCH
-  - CI_STAGE=$TRAVIS_BUILD_STAGE_NAME
+    - CI_CONFIG_DIR=build/ci/.env
+    - BRANCH_NAME=$TRAVIS_BRANCH
+    - CI_STAGE=$TRAVIS_BUILD_STAGE_NAME
 
 branches:
   only:
     - master
+    - release
+    - develop
     - nafhul
 
 script: bash build/ci/ci.sh $CI_STAGE $CMD_PATH $BRANCH_NAME
@@ -30,11 +32,11 @@ jobs:
 
     # ADD YOUR SERVICE OR CONSOLE HERE
     - stage: "build"
-      name: "nafhul"
+      name: "console1"
       env: CMD_PATH=cmd/console1
       if: type = push AND (commit_message =~ /\(console1\)/ OR commit_message =~ /build_all/)
     - name: "nafhul"
-      env: CMD_PATH=cmd/service/nafhul
+      env: CMD_PATH=cmd/app
       if: type = push AND (commit_message =~ /\(nafhul\)/ OR commit_message =~ /build_all/)
 
 #notifications:
