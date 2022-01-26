@@ -1,0 +1,38 @@
+os: linux
+dist: focal
+language: go
+go:
+- 1.17.x
+env:
+  global:
+  - CI_CONFIG_DIR=build/ci/.env
+  - BRANCH_NAME=$TRAVIS_BRANCH
+  - CI_STAGE=$TRAVIS_BUILD_STAGE_NAME
+branches:
+  only:
+  - master
+  - mfahmirukman
+  # - release
+  # - develop
+script: bash build/ci/ci.sh $CI_STAGE $CMD_PATH $BRANCH_NAME
+jobs:
+  include:
+  - stage: test
+    name: Run Unit Testing
+    if: type = pull_request AND (commit_message !~ /skip_test/)
+  # BUILD BASE IMAGE
+  - stage: "build-base"
+    name: "base_image"
+    if: type = push AND (commit_message =~ /\(build_base\)/ OR commit_message =~ /build_all/)
+  - name: "mfahmirukman"
+    env: CMD_PATH=cmd/mfahmirukman
+    if: type = push AND (commit_message =~ /mfahmirukman/ OR commit_message =~ /build_all/)
+# notifications:
+#   slack:
+#     - rooms:
+#       # id-pipeline-status
+#       - secure: eVLm9TVdjznh3rHBqzKpz0vuRDeEReOSaRJ1PGbCPBFkah0FP4VDwnQI28q7NHmwX9BfAKhXLKvn8P/MpzZ0M09Ku9ogW6r4/gIdN72tlTMXo4/tqOBxvULYnDiF5kRIKBzaxJJUGwfzNIit34oNiDhuJj6iTyV/DrRZ+FMAY7OrdpQfzo8dnMHbMtFo6BwQ5EtZIKp9wgDl24DJcqkWp9O7C9Px9/UtVbnz3YIO720u6dKSKagUFbYj8XcdWB4Byf7nWuAxEzy1eOzC0CiFiZXVbUDh8MBdnmsjZxMHXEyPqfvSHHR2Wh8mLkQwDtehzMa27K4qf9ix/js8CZxGupE5TsWcSOus0T6gpVR3WfhkGVfq68fgo1KIYpkJPusFNJZxUP9NYNPAsjcpMD1rTCTwZSIy+tILJv+Acr1CcZy0NfD1Zeo/GDriguk48PbSSyr8WopYh3Uf8OUREN2681tOR+xYora99gOPa+Gc/wSRqBKxsYCa8FdDbEVXWEu7E4Ull72icA3r6W1r9C9U7vYpcDqhbgGRg1H19uDFjHhZsqzLR86BDhGuIzVBQV3pYnQe3tvYwV/ff0FSGsfZLDQ4um2sJPALp9N8N5YIJQ1p8yZV0hXLW7+4SS+QdDuJZG5LNIQX+p3gp/LNHFGom76Ba3hPAOhAPD7dawER10c=
+#       on_pull_request: false
+#       if: branch = mfahmirukman
+#       on_success: change
+#       on_failure: always
