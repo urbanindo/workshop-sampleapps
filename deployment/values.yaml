@@ -1,0 +1,86 @@
+# Reference values https://github.com/urbanindo/99-charts
+
+# Define environments
+env:
+  name: develop #develop, release, prod
+gitRepo:
+  #define you repo-name here e.g backend-service
+  name: workshop-sampleapps
+# Annotations
+podAnnotations:
+  gitUrl: "https://github.com/urbanindo/workshop-sampleapps.git"
+  kubernetes.io/change-cause: "CHANGE_CAUSE_MESSAGE"
+  sidecar.istio.io/inject: "true"
+  sidecar.istio.io/rewriteAppHTTPProbers: "false"
+hpaAnnotations:
+  enabled: false
+  prometheusServer: http://prometheus-server.monitoring.svc
+# Deployment
+replicaCount: 1
+image:
+  repository: asia.gcr.io/core-v3-283604/99-workshop
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: amakmurr-develop-9bb0d62-2110180112 # {"$imagepolicy": "demo-develop:demo-leads:tag"}
+  pullPolicy: IfNotPresent
+# Configmap & Secret
+imagePullSecrets:
+  - name: gcr-json-key
+envFrom:
+  - configMapRef:
+      name: demo-config
+  - secretRef:
+      name: demo-secret
+# Resources
+resources:
+  # limits:
+  #   cpu: 64m
+  #   memory: 64M
+  requests:
+    cpu: 32m
+    memory: 32Mi
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 2
+  QPStarget: 7
+  # targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+# Health Check
+livenessCheck:
+  enabled: false
+livenessProbe:
+  failureThreshold: 5
+  httpGet:
+    path: /nnd-aruok
+    port: 5000
+    scheme: HTTP
+  initialDelaySeconds: 7
+  periodSeconds: 5
+  successThreshold: 1
+  timeoutSeconds: 5
+readinessCheck:
+  enabled: false
+readinessProbe:
+  failureThreshold: 5
+  httpGet:
+    path: /nnd-aruok
+    port: 5000
+    scheme: HTTP
+  initialDelaySeconds: 14
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 5
+# Service
+service:
+  type: ClusterIP
+  srcPort: 8080
+  dstPort: 8080
+# Istio Configuration
+virtualService:
+  enabled: false
+destinationRule:
+  enabled: false
+  loadBalanceMode: LEAST_CONN
+# Disable but must define
+volumeMounts: []
+volumes: []
