@@ -16,9 +16,9 @@ _main() {
         version|v)
             _version
             ;;
-        test)
-            _run_test
-            ;;
+        # test)
+        #     _run_test
+        #     ;;
         build-base)
             _build_base
             ;;
