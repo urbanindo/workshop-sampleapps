@@ -13,7 +13,7 @@ branches:
   only:
     - supriyadin
 
-script: bash build/ci/ci.sh $CI_STAGE $CMD_PATH $BRANCH_NAME
+script: bash build/ci/ci.sh $CI_STAGE $CMD_PATH $BRANCH_NAME 
 
 jobs:
   include:
