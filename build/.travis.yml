@@ -1,0 +1,43 @@
+os: linux
+dist: focal
+language: go
+go:
+- 1.17.x
+env:
+  global:
+  - CI_CONFIG_DIR=build/ci/.env
+  - BRANCH_NAME=$TRAVIS_BRANCH
+  - CI_STAGE=$TRAVIS_BUILD_STAGE_NAME
+
+branches:
+  only:
+    - master
+    - faris
+
+script: bash build/ci/ci.sh $CI_STAGE $CMD_PATH $BRANCH_NAME
+
+jobs:
+  include:
+    # TEST
+    - stage: "test"
+      name: "Run Unit Testing"
+      if: type = pull_request AND (commit_message !~ /skip_test/)
+    
+    # BUILD BASE IMAGE
+    - stage: "build-base"
+      name: "base_image"
+      if: type = push AND (commit_message =~ /\(build_base\)/ OR commit_message =~ /build_all/)
+      
+    # ADD YOUR SERVICE OR CONSOLE HERE
+    - stage: "build"
+      name: "faris-service"
+      env: CMD_PATH=cmd/app
+      if: type = push AND (commit_message =~ /\(faris-service\)/ OR commit_message =~ /build_all/)
+
+
+# notifications:
+#   slack:
+#     - rooms:
+#         - secure: dmW+01FG53O04XMggprvaHvV/5zBgcBwYkrKBtXoLWXl9j9lbRG7BsssUUMqVoCdziFcYR7V6o8QnrIhI56ocpSdWoa1kmZlAU6zvKrcemPq9+vSGkKDDGuXQP52qvDkkTHnNZzNUMfvNIun2p9wm4Xrt7rXj8A5hxzz2WLgHlIBHf158Ze0TUiC8oDMzLSd5W+t4JP/jk/aeaX5hIxiLChlxrbvmu2900tsrk+FDmV+wKRfbdDJI9/ngN+7XxmR4o54dmKB79XqfmUP+FGGskCmE8/UWhT/QUunxhGpLl2naRqfnxsfFFIB/qtrjdLSecQlfWKbP3qBS+zX4p9lbSzDsXDCgQkuQp/14+iTp10gxQOGN0HYlZbmfUAc9Nbp91ZRGBAnEpvHhqJlrrxCvSdDMQTtpTK3BS5q0R62r/M3mgt6gqVNGuSa6ve757R2e7lEzFwAOGei8HTl6dyGnfQoNt08aNoC5mD6ROkOcPFmvigT65Suny79S/F5OtcQ2wTQ9W0r9wNwgq2ubuMsqIq3S2QGE9NKvJJok9lJCmcI2YtPMHIvDNx3vfl/9wD4AJldZ/bgPGRvagiUIZPPdxhZHjcU38w7GJvT7t8yI74h/EINj41sl/M2Yk2NRIFyu5fY5yVw8nASw6hync6s5V45B951FQuyh9DFnPU1E1U=
+#       on_success: always
+#       on_failure: always
