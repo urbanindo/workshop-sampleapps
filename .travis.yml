@@ -11,9 +11,7 @@ env:
 
 branches:
   only:
-    - master
-    - release
-    - develop
+    - indra
 
 script: bash build/ci/ci.sh $CI_STAGE $CMD_PATH $BRANCH_NAME
 
