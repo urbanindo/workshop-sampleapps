@@ -29,12 +29,9 @@ jobs:
       
     # ADD YOUR SERVICE OR CONSOLE HERE
     - stage: "build"
-      name: "console1"
-      env: CMD_PATH=cmd/console1
-      if: type = push AND (commit_message =~ /\(console1\)/ OR commit_message =~ /build_all/)
-    - name: "service1"
-      env: CMD_PATH=cmd/service/service1
-      if: type = push AND (commit_message =~ /\(service1\)/ OR commit_message =~ /build_all/)
+      name: "app"
+      env: CMD_PATH=cmd/app
+      if: type = push AND (commit_message =~ /\(app\)/ OR commit_message =~ /build_all/)
 
 # notifications:
 #   slack:
