@@ -1,0 +1,90 @@
+# Define environments
+env:
+  name: develop #develop, release, prod
+gitRepo:
+  name: leads-services #Define you repo-name here e.g backend-services
+  
+# Annotations
+podAnnotations:
+  gitUrl: "https://github.com/urbanindo/leads-services.git" #Change your git url
+  kubernetes.io/change-cause: "CHANGE_CAUSE_MESSAGE"
+  sidecar.istio.io/inject: "true"
+  sidecar.istio.io/rewriteAppHTTPProbers: "false"
+hpaAnnotations:
+  enabled: false
+  prometheusServer: http://prometheus-server.monitoring.svc
+  
+# Deployment
+replicaCount: 1
+image:
+  # Change sample here based on your product name
+  repository: asia.gcr.io/core-v3-283604/99-lmp
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: leads-develop-9bb0d62-2110180112 # {"$imagepolicy": "lmp-develop:lmp-leads:tag"}
+  pullPolicy: IfNotPresent
+  
+# Configmap & Secret
+imagePullSecrets:
+  - name: gcr-json-key #Default
+envFrom:
+  - configMapRef:
+      name: lmp-config #Change based on product name
+  - secretRef:
+      name: lmp-secret #Change based on product name
+
+# Custom resources based on your need
+resources:
+  # limits:
+  #  cpu: 64m
+  #  memory: 64M
+  requests:
+    cpu: 32m
+    memory: 32Mi
+
+# Define auto scale for release and prod only    
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 2
+  QPStarget: 7
+  # targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+  
+# Health Check
+livenessProbe:
+  failureThreshold: 5
+  httpGet:
+    path: /nnd-aruok
+    port: 5000
+    scheme: HTTP
+  initialDelaySeconds: 7
+  periodSeconds: 5
+  successThreshold: 1
+  timeoutSeconds: 5
+readinessProbe:
+  failureThreshold: 5
+  httpGet:
+    path: /nnd-aruok
+    port: 5000
+    scheme: HTTP
+  initialDelaySeconds: 14
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 5
+  
+# Service
+service:
+  type: ClusterIP
+  srcPort: 8080 #expose port
+  dstPort: 8080 #container port
+  
+# Istio Configuration
+virtualService:
+  enabled: true
+destinationRule:
+  enabled: true
+  loadBalanceMode: LEAST_CONN
+  
+# Disable but must define
+volumeMounts: []
+volumes: []
