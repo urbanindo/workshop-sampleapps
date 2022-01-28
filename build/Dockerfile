@@ -12,4 +12,4 @@ FROM alpine:3.14
 WORKDIR /root/
 COPY --from=compiler /go/bin/app .
 
-CMD ["./app"] 
+CMD ["./app"]
