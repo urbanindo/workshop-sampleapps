@@ -8,6 +8,7 @@ CMD_PATH=$2
 BRANCH_NAME=$3
 PUSH=$4
 
+
 _main() {
     _init
     _set_env_name
@@ -80,7 +81,7 @@ _build() {
     #set docker image tag
     APP_NAME=$(basename $CMD_PATH)
     IMAGE_VERSION=$(git rev-parse --short HEAD)-$(date +%y%m%d%H%M%S)
-    IMAGE_TAG=$APP_NAME.$ENV_NAME-$IMAGE_VERSION
+    IMAGE_TAG=$APP_NAME-$ENV_NAME-$IMAGE_VERSION
 
     echo "[info] -- building docker image for $DOCKER_IMAGE:$IMAGE_TAG"
     docker build -t $DOCKER_IMAGE:$IMAGE_TAG -f $DOCKERFILE . --build-arg CMD_PATH=$CMD_PATH
@@ -102,17 +103,17 @@ _auth_gcr() {
     gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://asia.gcr.io
 }
 
-_setup_git_cred() {
-    echo "[info] -- setup git credential"
-    git config --global url.git@github.com:.insteadOf https://github.com/
-    cp config/.ssh/id_rsa ~/.ssh/id_rsa
-    printf "Host github.com\n\tStrictHostKeyChecking no\n\tIdentityFile ~/.ssh/id_rsa" > ~/.ssh/config
-}
+# _setup_git_cred() {
+#     echo "[info] -- setup git credential"
+#     git config --global url.git@github.com:.insteadOf https://github.com/
+#     cp config/.ssh/id_rsa ~/.ssh/id_rsa
+#     printf "Host github.com\n\tStrictHostKeyChecking no\n\tIdentityFile ~/.ssh/id_rsa" > ~/.ssh/config
+# }
 
 _run_test() {
-    _setup_git_cred
+    # _setup_git_cred
     echo "[info] - running unit test"
-    make test
+    # make test
 }
 
 _init() {
@@ -137,4 +138,4 @@ _version() {
     echo "Version : 0.2.0"
 }
 
-_main "$@"; exit
+_main "$@"; exit 
