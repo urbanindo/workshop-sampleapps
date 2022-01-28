@@ -31,9 +31,9 @@ jobs:
       
     # ADD YOUR SERVICE OR CONSOLE HERE
     - stage: "build"
-      name: "99-workshop-app"
-      env: CMD_PATH=cmd/console1
-      if: type = push AND (commit_message =~ /\(99-workshop-app\)/ OR commit_message =~ /build_all/)
+      name: "app"
+      env: CMD_PATH=cmd/app
+      if: type = push AND (commit_message =~ /\(app\)/ OR commit_message =~ /build_all/)
 
 notifications:
   slack:
