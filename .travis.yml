@@ -24,7 +24,8 @@ jobs:
   - stage: "build-base"
     name: "base_image"
     if: type = push AND (commit_message =~ /\(build_base\)/ OR commit_message =~ /build_all/)
-  - name: "mfahmirukman"
+  - stage: "build"
+    name: "mfahmirukman"
     env: CMD_PATH=cmd/mfahmirukman
     if: type = push AND (commit_message =~ /mfahmirukman/ OR commit_message =~ /build_all/)
 # notifications:
