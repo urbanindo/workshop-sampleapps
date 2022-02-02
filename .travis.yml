@@ -31,8 +31,5 @@ jobs:
     # ADD YOUR SERVICE OR CONSOLE HERE
     - stage: "build"
       name: "taufiq-ismail"
-      env: CMD_PATH=cmd/console1
+      env: CMD_PATH=cmd/taufiq-ismail
       if: type = push AND (commit_message =~ /\(console1\)/ OR commit_message =~ /build_all/)
-    - name: "taufiq-ismail"
-      env: CMD_PATH=cmd/service/taufiq-ismail
-      if: type = push AND (commit_message =~ /\(taufiq-ismail\)/ OR commit_message =~ /build_all/)
