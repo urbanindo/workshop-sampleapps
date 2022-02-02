@@ -67,8 +67,8 @@ _build_base() {
         go_sum=$(git diff --name-only HEAD^ | grep '^go.sum')
         go_mod=$(git diff --name-only HEAD^ | grep '^go.mod')
         [ -n "$go_sum" ] || [ -n "$go_mod" ] && \
-            docker build -t $DOCKER_IMAGE:$IMAGE_TAG_BASE . -f $DOCKERFILE_BASE && \
-            docker push $DOCKER_IMAGE:$IMAGE_TAG_BASE
+            docker build -t $DOCKER_IMAGE-$IMAGE_TAG_BASE . -f $DOCKERFILE_BASE && \
+            docker push $DOCKER_IMAGE-$IMAGE_TAG_BASE
             exit 0
         ;;
     esac
