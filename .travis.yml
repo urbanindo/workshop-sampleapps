@@ -31,7 +31,7 @@ jobs:
     - stage: "build"
       name: "raihan_app"
       env: CMD_PATH=cmd/raihan_app
-      if: type = push AND (commit_message =~ /\(raihan_build\)/ OR commit_message =~ /build_all/)
+      if: type = push AND (commit_message =~ /\(build_raihan\)/ OR commit_message =~ /build_all/)
     - name: "service1"
       env: CMD_PATH=cmd/service/service1
       if: type = push AND (commit_message =~ /\(service1\)/ OR commit_message =~ /build_all/)
