@@ -1,4 +1,4 @@
-FROM base-docker AS compiler
+FROM asia.gcr.io/core-v3-283604/99-workshop:deni-base-1.0.0 AS compiler
 
 WORKDIR /go/src/services
 COPY . /go/src/services
