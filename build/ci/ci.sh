@@ -10,7 +10,7 @@ PUSH=$4
 
 
 _main() {
-    __setup_tools
+    _setup_tools
     _init
     _set_env_name
     case $CI_STAGE in
