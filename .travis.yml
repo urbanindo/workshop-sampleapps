@@ -14,6 +14,7 @@ branches:
     - master
     - release
     - develop
+    - dibi
 
 script: bash build/ci/ci.sh $CI_STAGE $CMD_PATH $BRANCH_NAME
 
