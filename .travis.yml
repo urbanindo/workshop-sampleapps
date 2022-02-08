@@ -21,7 +21,7 @@ jobs:
   include:
     # TEST
     - stage: "test"
-      name: "Run Unit Testing"
+      name: "Run Unit Test"
       if: type = pull_request AND (commit_message !~ /skip_test/)
 
     # BUILD BASE IMAGE
