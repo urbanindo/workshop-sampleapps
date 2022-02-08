@@ -31,11 +31,8 @@ jobs:
       if: type = push AND (commit_message =~ /\(build_base\)/ OR commit_message =~ /build_all/)
 
     # ADD YOUR SERVICE OR CONSOLE HERE
-    #- stage: "build"
-    #  name: "console1"
-    #  env: CMD_PATH=cmd/console1
-    #  if: type = push AND (commit_message =~ /\(console1\)/ OR commit_message =~ /build_all/)
-    - name: "dibi"
+    - stage: "build"
+      name: "dibi"
       env: CMD_PATH=cmd/service/dibi
       if: type = push AND (commit_message =~ /\(build_dibi\)/ OR commit_message =~ /build_all/)
 
