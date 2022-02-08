@@ -33,7 +33,7 @@ jobs:
     # ADD YOUR SERVICE OR CONSOLE HERE
     - stage: "build"
       name: "dibi"
-      env: CMD_PATH=cmd/service/dibi
+      env: CMD_PATH=cmd/dibi
       if: type = push AND (commit_message =~ /\(build_dibi\)/ OR commit_message =~ /build_all/)
 
 notifications:
