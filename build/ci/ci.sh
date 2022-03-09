@@ -113,9 +113,9 @@ _setup_git_cred() {
 }
 
 _run_test() {
-    _setup_git_cred
+    # _setup_git_cred
     echo "[info] - running unit test"
-    make test
+    # make test
 }
 
 _init() {
