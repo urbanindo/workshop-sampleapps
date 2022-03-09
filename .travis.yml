@@ -20,6 +20,11 @@ script: bash build/ci/ci.sh $CI_STAGE $CMD_PATH $BRANCH_NAME
 
 jobs:
   include:
+  # TEST
+    - stage: "test"
+      name: "Run Unit Testing"
+      if: type = pull_request AND (commit_message !~ /skip_test/)
+      
     # BUILD BASE IMAGE
     - stage: "build-base"
       name: "base_image"
