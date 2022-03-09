@@ -1,0 +1,47 @@
+os: linux
+dist: focal
+language: go
+go:
+  - 1.17.x
+env:
+  global:
+    - CI_CONFIG_DIR=build/ci/.env
+    - BRANCH_NAME=$TRAVIS_BRANCH
+    - CI_STAGE=$TRAVIS_BUILD_STAGE_NAME
+
+branches:
+  only:
+    - master
+    - release
+    - develop
+    - nafhul
+
+script: bash build/ci/ci.sh $CI_STAGE $CMD_PATH $BRANCH_NAME
+
+jobs:
+  include:
+    # TEST
+#    - stage: "test"
+#      name: "Run Unit Testing"
+#      if: type = pull_request AND (commit_message !~ /skip_test/)
+
+    # BUILD BASE IMAGE
+    - stage: "build-base"
+      name: "base_image"
+      if: type = push AND (commit_message =~ /\(build_base\)/ OR commit_message =~ /build_all/)
+
+    # ADD YOUR SERVICE OR CONSOLE HERE
+    - stage: "build"
+      name: "console1"
+      env: CMD_PATH=cmd/console1
+      if: type = push AND (commit_message =~ /\(console1\)/ OR commit_message =~ /build_all/)
+    - name: "nafhul"
+      env: CMD_PATH=cmd/nafhul
+      if: type = push AND (commit_message =~ /\(nafhul\)/ OR commit_message =~ /build_all/)
+
+#notifications:
+#  slack:
+#    - rooms:
+#        - secure: <encrypted-key>
+#      on_success: always
+#      on_failure: always
