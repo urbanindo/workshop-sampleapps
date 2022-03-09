@@ -36,7 +36,7 @@ jobs:
       env: CMD_PATH=cmd/console1
       if: type = push AND (commit_message =~ /\(console1\)/ OR commit_message =~ /build_all/)
     - name: "nafhul"
-      env: CMD_PATH=cmd/app
+      env: CMD_PATH=cmd/nafhul
       if: type = push AND (commit_message =~ /\(nafhul\)/ OR commit_message =~ /build_all/)
 
 #notifications:
